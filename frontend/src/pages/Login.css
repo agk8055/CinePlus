@@ -1,0 +1,74 @@
+/* Login.css */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #121212; /* Dark background */
+  }
+  
+  .login-box {
+    background-color: #1a1a1a; /* Darker box background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    width: 350px;
+  }
+  
+  .login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #75d402; /* Green heading */
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333; /* Darker border */
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #2a2a2a; /* Slightly lighter input background */
+    color: #ffffff; /* White text color */
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #75d402; /* Green button */
+    color: #121212; /* Dark button text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition */
+  }
+  
+  .login-button:hover {
+    background-color: #5aa700; /* Darker green on hover */
+  }
+  
+  .error {
+    color: #ff6b6b; /* Red error color */
+    margin-bottom: 10px;
+  }
+  
+  .signup-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #ffffff; /* White link text */
+  }
+  
+  .signup-link a {
+    color: #75d402; /* Green link color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .signup-link a:hover {
+    color: #5aa700; /* Darker green on hover */
+    text-decoration: underline;
+  }

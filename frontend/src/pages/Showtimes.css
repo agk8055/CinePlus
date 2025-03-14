@@ -1,0 +1,153 @@
+/* Showtimes Page */
+.showtimes-container {
+    padding: 2rem;
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  .movie-header{
+    margin-left: 2.5rem;
+  }
+  
+  .movie-header h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .genre {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .date-selector {
+    display: flex;
+    overflow-x: auto;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  }
+  
+  .date-button {
+    background-color: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    transition: background-color 0.3s;
+  }
+  
+  .date-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .date-button.active {
+    background-color: #75d402;
+    color: #121212;
+  }
+  
+  .day {
+    font-size: 0.8rem;
+  }
+  
+  .day-month {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 2.5rem;
+  }
+  
+  .filters > div {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+  }
+  
+  .search-icon {
+    margin-left: auto; /* Push the search icon to the right */
+  }
+  
+  .showtimes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .theater-card {
+    border: 1px solid #333;
+    padding: 1.5rem;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+  }
+  
+  .theater-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .theater-info h3 {
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  
+  .info-button {
+    background-color: transparent;
+    border: none;
+    color: #75d402;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .heart-icon{
+    color: #5aa700;
+  }
+  
+  .amenities {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .amenity-icon {
+    color: #75d402;
+  }
+  
+  .showtime-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .showtime-button {
+    background-color: #75d402;
+    color: #121212;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .showtime-button:hover {
+    background-color: #5aa700;
+  }
+  
+  /* Add more styles for other elements as needed */
+  

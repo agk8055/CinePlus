@@ -1,0 +1,91 @@
+/* frontend/src/pages/ScreenList.css */
+
+.screen-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem;
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.screen-list-title {
+    color: #8BC34A;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.screens-ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+.screen-list-item {
+    background-color: #1E1E1E;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #2C2C2C;
+}
+
+.screen-info {
+    flex-grow: 1;
+}
+
+.screen-number {
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.screen-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.delete-screen-button {
+    padding: 10px 15px;
+    background-color: #ff6b6b; /* Red for delete */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.delete-screen-button:hover {
+    background-color: #e04f4f;
+}
+
+.back-to-theaters-button {
+    padding: 12px 20px;
+    background-color: #75d402; /* Green for back button */
+    color: #121212;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-theaters-button:hover {
+    background-color: #5aa700;
+}
+
+.screen-list-item:last-child {
+    margin-bottom: 0;
+}

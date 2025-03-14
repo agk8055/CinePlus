@@ -1,0 +1,125 @@
+/* frontend/src/pages/CreateMovie.css */
+
+.create-movie-container {
+    max-width: 800px;
+    margin: 3rem auto; /* Increased margin */
+    padding: 3rem; /* Increased padding */
+    background-color: #121212; /* Deeper dark background */
+    border-radius: 12px; /* More rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
+    color: #e0e0e0; /* Lighter text color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+}
+
+.create-movie-container h2 { /* Changed h1 to h2 for CreateScreen title */
+    text-align: center;
+    margin-bottom: 2rem; /* Increased margin */
+    color: #8BC34A; /* Vibrant green title */
+    font-size: 2.5rem; /* Larger title */
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.create-movie-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 2rem; /* Increased margin */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.8rem; /* Increased margin */
+    color: #fff;
+    font-weight: 500; /* Medium font weight for labels */
+    font-size: 1.1rem; /* Slightly larger label font */
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px; /* Increased padding */
+    border: 1px solid #333;
+    border-radius: 8px; /* Rounded input corners */
+    background-color: #1E1E1E; /* Darker input background */
+    color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem; /* Input font size */
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px; /* Increased min height */
+}
+
+.submit-button {
+    padding: 14px 25px; /* Increased button padding */
+    background-color: #8BC34A; /* Vibrant green button */
+    color: #121212;
+    border: none;
+    border-radius: 8px; /* Rounded button corners */
+    cursor: pointer;
+    font-size: 1.1rem; /* Larger button font */
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #7CB342;
+    transform: scale(1.03); /* Slight scale up on hover */
+    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.3);
+}
+
+.error-message {
+    color: #ff6b6b;
+    margin-top: 1rem;
+}
+
+.success-message {
+    color: #8BC34A;
+    margin-top: 1rem;
+}
+
+.seat-row-config {
+    border: 1px solid #333;
+    padding: 2rem; /* Increased padding */
+    margin-bottom: 2rem; /* Increased margin */
+    border-radius: 10px; /* More rounded corners */
+    background-color: #1E1E1E; /* Darker background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for seat config sections */
+}
+
+.seat-row-config h4 {
+    color: #8BC34A;
+    margin-top: 0;
+    margin-bottom: 1.5rem; /* Increased margin */
+    font-size: 1.6rem; /* Larger section heading */
+    font-weight: 500;
+}
+
+.seat-row-config button {
+    padding: 10px 18px;
+    background-color: #ff6b6b;
+    color: #fff; /* White text on remove button */
+    border: none;
+    border-radius: 6px; /* Rounded button corners */
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    margin-top: 1rem; /* Increased margin */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seat-row-config button:hover {
+    background-color: #e04f4f;
+    transform: scale(1.03);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.seat-row-config .form-group {
+    margin-bottom: 1.5rem; /* Increased margin inside seat-row-config */
+}

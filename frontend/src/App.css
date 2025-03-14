@@ -1,0 +1,309 @@
+/* Dark Theme Styles */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Container for content */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Custom Green Buttons */
+.btn-primary {
+  background-color: hsl(87, 98%, 42%);
+  color: #121212;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background-color: #5aa700;
+  transform: translateY(-1px);
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #1a1a1a;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.navbar-brand {
+  color: #75d402;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #75d402;
+}
+
+/* Movie Card Styles */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.movie-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 1rem;
+}
+
+.movie-title {
+  color: #75d402;
+  margin: 0.5rem 0;
+}
+
+.movie-genre {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Seat Selection Styles */
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 0.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.seat.available {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.seat.selected {
+  background: #75d402;
+  color: #121212;
+}
+
+.seat.booked {
+  background: #444;
+  cursor: not-allowed;
+}
+
+/* Movie Poster Styles */
+.movie-poster {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.movie-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 1rem;
+}
+
+.movie-title {
+  color: #75d402;
+  margin: 0.5rem 0;
+}
+
+.movie-genre {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+
+/* Movie Details Page */
+.movie-details-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  margin: 2rem;
+  gap: 2rem;
+}
+
+.movie-details-poster {
+  flex: 0 0 300px; /* Adjust width as needed */
+  position: relative; /* For positioning the trailer button */
+}
+
+.movie-details-poster img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.trailer-button {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.trailer-button:hover {
+  opacity: 1;
+}
+
+.movie-details-info {
+  flex: 1;
+}
+
+.movie-details-title {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.movie-details-rating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rating-star {
+  color: #75d402;
+  font-size: 1.2rem;
+}
+
+.rate-now-button {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #75d402;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.movie-details-format {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.format-2d,
+.format-language {
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust as needed */
+  color: #fff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
+}
+
+.movie-details-misc {
+  color: #ccc;
+  margin-bottom: 1.5rem;
+}
+
+.book-tickets-button {
+  background-color: #75d402;
+  color: #121212;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-tickets-button:hover {
+  background-color: #5aa700;
+}
+
+.movie-details-about {
+  width: 100%; /* Occupy full width below poster and info */
+}
+
+.movie-details-about h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+/* Loading Styles */
+.loading{
+    color: #5aa700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}
+
+
+
