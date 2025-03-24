@@ -1,0 +1,275 @@
+/* Profile Page Styles */
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  
+  .profile-header h1 {
+    font-size: 2.5rem;
+    color: #75d402;
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-section {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #2d2d2d;
+  }
+  
+  .section-header h2 {
+    color: #75d402;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .btn-edit {
+    background: none;
+    border: 1px solid #75d402;
+    color: #75d402;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-edit:hover {
+    background: rgba(117, 212, 2, 0.1);
+  }
+  
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-group label {
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  input, .profile-value {
+    padding: 0.8rem;
+    background: #2d2d2d;
+    border: 1px solid #363636;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #75d402;
+    box-shadow: 0 0 0 2px rgba(117, 212, 2, 0.2);
+  }
+  
+  .profile-value {
+    background: none;
+    border: 1px solid transparent;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  /* Password Section */
+  .collapsible {
+    cursor: pointer;
+  }
+  
+  .toggle-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .toggle-icon::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background: #75d402;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .toggle-icon::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background: #75d402;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+  }
+  
+  .toggle-icon.open::after {
+    opacity: 0;
+  }
+  
+  .password-form {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  
+  .password-form.open {
+    max-height: 500px;
+    margin-top: 1.5rem;
+  }
+  
+  /* Alerts */
+  .profile-alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-alert.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+  }
+  
+  .profile-alert.success {
+    background: rgba(117, 212, 2, 0.1);
+    border: 1px solid #75d402;
+    color: #75d402;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .profile-container {
+      padding: 0 1rem;
+    }
+    
+    .profile-section {
+      padding: 1.5rem;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+    
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  /* Updated Styles */
+.btn-secondary {
+    background: none;
+    border: 1px solid #75d402;
+    color: #75d402;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(117, 212, 2, 0.1);
+    transform: translateY(-1px);
+  }
+  
+  .highlight-box {
+    background: #1f1f1f;
+    border: 1px solid #2d2d2d;
+    border-radius: 6px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-value.highlight-box {
+    margin: 0.25rem 0;
+  }
+  
+  /* Enhanced Form Group Styling */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #75d402;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  
+  input {
+    width: 100%;
+    padding: 1rem;
+    background: #1f1f1f;
+    border: 1px solid #2d2d2d;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #75d402;
+    box-shadow: 0 0 0 3px rgba(117, 212, 2, 0.1);
+  }
+  
+  /* Enhanced Section Header */
+  .section-header {
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #75d402;
+  }
+  
+  .section-header h2 {
+    font-size: 1.75rem;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  
+  /* Improved Button Spacing */
+  .form-actions {
+    gap: 1.5rem;
+    padding-top: 1rem;
+    margin-top: 2rem;
+    border-top: 1px solid #2d2d2d;
+  }
+  
+  /* Hover Effects */
+  .highlight-box:hover {
+    border-color: #363636;
+  }
+  
+  .btn-edit:hover {
+    background: rgba(117, 212, 2, 0.1);
+    border-color: #9aff3d;
+  }

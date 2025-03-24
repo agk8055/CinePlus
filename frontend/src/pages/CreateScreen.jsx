@@ -1,4 +1,3 @@
-// frontend/src/pages/CreateScreen.jsx
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/api';
@@ -9,7 +8,7 @@ const CreateScreen = () => {
     const navigate = useNavigate();
 
     const [screenNumber, setScreenNumber] = useState('');
-    const [seatRowsConfig, setSeatRowsConfig] = useState([{ row_name: '', seat_count: 0, seat_type: 'Regular', price: 200 }]); // Initial row config
+    const [seatRowsConfig, setSeatRowsConfig] = useState([{ row_name: '', seat_numbers: '', seat_type: 'Regular', price: 200 }]); // Initial row config - changed seat_count to seat_numbers
 
     const handleInputChange = (e) => {
         setScreenNumber(e.target.value);
@@ -22,7 +21,7 @@ const CreateScreen = () => {
     };
 
     const addRowConfig = () => {
-        setSeatRowsConfig([...seatRowsConfig, { row_name: '', seat_count: 0, seat_type: 'Regular', price: 200 }]);
+        setSeatRowsConfig([...seatRowsConfig, { row_name: '', seat_numbers: '', seat_type: 'Regular', price: 200 }]); // Initialize seat_numbers as empty string
     };
 
     const removeRowConfig = (index) => {
@@ -36,17 +35,20 @@ const CreateScreen = () => {
 
         const seatRows = seatRowsConfig.map(row => ({
             row_name: row.row_name.toUpperCase(), // Ensure row names are uppercase for consistency
-            seat_count: parseInt(row.seat_count, 10),
-            seat_type: row.seat_type,
+            seat_numbers: row.seat_numbers, // Send as string - NO SPLITTING in frontend
+            seat_type: row.seat_type, // Seat type will now be taken directly from user input
             price: parseFloat(row.price)
         }));
 
+        const payload = { // Create payload object
+            screen_number: parseInt(screenNumber, 10),
+            seatRows: seatRows
+        };
+
+        console.log("Payload being sent to create screen API:", payload); // Log the payload
 
         try {
-            await api.post(`/theaters/${theaterId}/screens`, {
-                screen_number: parseInt(screenNumber, 10),
-                seatRows: seatRows
-            });
+            await api.post(`/theaters/${theaterId}/screens`, payload); // Send the payload
             alert('Screen created successfully!');
             navigate('/admin'); // Redirect back to admin panel or theater management page
         } catch (error) {
@@ -73,16 +75,19 @@ const CreateScreen = () => {
                             <input type="text" id={`rowName-${index}`} value={rowConfig.row_name} onChange={(e) => handleRowConfigChange(index, 'row_name', e.target.value)} required />
                         </div>
                         <div className="form-group">
-                            <label htmlFor={`seatCount-${index}`}>Seat Count:</label>
-                            <input type="number" id={`seatCount-${index}`} value={rowConfig.seat_count} onChange={(e) => handleRowConfigChange(index, 'seat_count', e.target.value)} required />
+                            <label htmlFor={`seatNumbers-${index}`}>Seat Numbers (comma-separated):</label>
+                            <input type="text" id={`seatNumbers-${index}`} value={rowConfig.seat_numbers} onChange={(e) => handleRowConfigChange(index, 'seat_numbers', e.target.value)} required />
+                            <p className="form-instruction">Enter seat numbers separated by commas (e.g., 1, 2, 3, 4)</p>
                         </div>
                         <div className="form-group">
-                            <label htmlFor={`seatType-${index}`}>Seat Type:</label>
-                            <select id={`seatType-${index}`} value={rowConfig.seat_type} onChange={(e) => handleRowConfigChange(index, 'seat_type', e.target.value)}>
-                                <option value="Regular">Regular</option>
-                                <option value="Premium">Premium</option>
-                                <option value="Executive">Executive</option>
-                            </select>
+                            <label htmlFor={`seatType-${index}`}>Seat Type (e.g., Regular, Premium, Executive):</label>
+                            <input
+                                type="text"
+                                id={`seatType-${index}`}
+                                value={rowConfig.seat_type}
+                                onChange={(e) => handleRowConfigChange(index, 'seat_type', e.target.value)}
+                                required
+                            />
                         </div>
                         <div className="form-group">
                             <label htmlFor={`price-${index}`}>Price:</label>

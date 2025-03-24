@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import './SeatLayout.css';
 import { getSeatLayout } from '../api/api';
 
-const SeatLayout = () => {
+const SeatLayout = ({ onSeatsSelected }) => { // Add onSeatsSelected prop
     const { screenId, showtimeId } = useParams();
     const [seatsData, setSeatsData] = useState([]);
     const [bookedSeatIds, setBookedSeatIds] = useState([]);
@@ -66,6 +66,17 @@ const SeatLayout = () => {
         });
     };
 
+    useEffect(() => {
+        if (onSeatsSelected) {
+            // Get full seat objects for selected seat IDs
+            const selectedSeatFullData = selectedSeats.map(seatId => {
+                return seatsData.find(seat => seat.seat_id === seatId);
+            }).filter(seat => seat !== undefined); // Filter out undefined
+            onSeatsSelected(selectedSeats, selectedSeatFullData); // Call callback
+        }
+    }, [selectedSeats, onSeatsSelected]); // Removed seatsData from dependency array
+
+
     if (loading) {
         return <p>Loading seat layout...</p>;
     }
@@ -95,37 +106,38 @@ const SeatLayout = () => {
         return typeGroups;
     }, {});
 
-    // **New function to get selected seat labels in "RowSeatNumber" format**
     const getSelectedSeatLabels = () => {
         return selectedSeats.map(seatId => {
             const seat = seatsData.find(s => s.seat_id === seatId);
             if (seat) {
-                return `${seat.row}${seat.seat_number}`; // Format: "RowSeatNumber" (e.g., A6)
+                return `${seat.row}${seat.seat_number}`;
             }
-            return `Seat ID ${seatId}`; // Fallback in case seat not found (shouldn't happen)
+            return `Seat ID ${seatId}`;
         });
     };
 
 
     return (
         <div className="seat-layout-container">
-           
-
             {Object.entries(groupedSeatsByRow).map(([seatType, rowGroups]) => (
                 <div key={seatType} className="seat-category-section">
                     <h3 className="seat-category-label">{seatType.toUpperCase()} Seats</h3>
-                    {Object.entries(rowGroups).sort().map(([rowLabel, seatsInRow]) => (
+                    {Object.entries(rowGroups).map(([rowLabel, seatsInRow]) => (
                         <div key={rowLabel} className="seat-row">
                             <div className="row-label">{rowLabel}</div>
                             <div className="seats">
-                                {seatsInRow.sort((a, b) => a.seat_number - b.seat_number).map(seat => (
-                                    <div
-                                        key={seat.seat_id}
-                                        className={`seat ${seatStatus[seat.seat_id] || 'available'}`}
-                                        onClick={() => handleSeatClick(seat.seat_id)}
-                                    >
-                                        {seat.seat_number}
-                                    </div>
+                                {seatsInRow.map(seat => (
+                                    seat.seat_number === '0' ? (
+                                        <div key={`${seat.seat_id}-space`} className="seat-space"></div>
+                                    ) : (
+                                        <div
+                                            key={seat.seat_id}
+                                            className={`seat ${seatStatus[seat.seat_id] || 'available'}`}
+                                            onClick={() => handleSeatClick(seat.seat_id)}
+                                        >
+                                            {seat.seat_number}
+                                        </div>
+                                    )
                                 ))}
                             </div>
                         </div>
@@ -140,11 +152,10 @@ const SeatLayout = () => {
             </div>
             {selectedSeats.length > 0 && (
                 <div className="selected-seats-display">
-                    {/* **Updated to use getSelectedSeatLabels() to display formatted labels** */}
                     Selected Seats: {getSelectedSeatLabels().join(', ')}
                 </div>
             )}
-             <div className="screen-view">Screen {screenId} - All eyes this way!</div>
+             <div className="screen-view">Screen  - All eyes this way!</div>
         </div>
     );
 };

@@ -1,125 +1,236 @@
 /* frontend/src/pages/CreateMovie.css */
 
-.create-movie-container {
+/* Variables for consistent theming */
+:root {
+    --primary-bg: #121212;
+    --secondary-bg: #1E1E1E;
+    --accent-color: #8BC34A;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --error-color: #ff6b6b;
+    --success-color: #8BC34A;
+    --input-bg: #1E1E1E;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Base styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  /* Container for create movie */
+  .create-movie-container {
     max-width: 800px;
-    margin: 3rem auto; /* Increased margin */
-    padding: 3rem; /* Increased padding */
-    background-color: #121212; /* Deeper dark background */
-    border-radius: 12px; /* More rounded corners */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
-    color: #e0e0e0; /* Lighter text color */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
-}
-
-.create-movie-container h2 { /* Changed h1 to h2 for CreateScreen title */
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--secondary-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    color: var(--text-color);
+  }
+  
+  /* Title styling */
+  .create-movie-container h1 {
     text-align: center;
-    margin-bottom: 2rem; /* Increased margin */
-    color: #8BC34A; /* Vibrant green title */
-    font-size: 2.5rem; /* Larger title */
+    margin-bottom: 2rem;
+    color: var(--accent-color);
+    font-size: 2.25rem;
     font-weight: 600;
     letter-spacing: -0.02em;
-}
-
-.create-movie-form {
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+  
+  .create-movie-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+  }
+  
+  /* Form layout */
+  .create-movie-form {
     display: flex;
     flex-direction: column;
-}
-
-.form-group {
-    margin-bottom: 2rem; /* Increased margin */
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.8rem; /* Increased margin */
-    color: #fff;
-    font-weight: 500; /* Medium font weight for labels */
-    font-size: 1.1rem; /* Slightly larger label font */
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    padding: 12px; /* Increased padding */
-    border: 1px solid #333;
-    border-radius: 8px; /* Rounded input corners */
-    background-color: #1E1E1E; /* Darker input background */
-    color: #fff;
+    gap: 1.5rem;
+  }
+  
+  /* Form group styling */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .form-group label {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  
+  /* Input fields */
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
     width: 100%;
-    box-sizing: border-box;
-    font-size: 1rem; /* Input font size */
-}
-
-.form-group textarea {
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+  }
+  
+  .form-group textarea {
     resize: vertical;
-    min-height: 120px; /* Increased min height */
-}
-
-.submit-button {
-    padding: 14px 25px; /* Increased button padding */
-    background-color: #8BC34A; /* Vibrant green button */
-    color: #121212;
+    min-height: 150px;
+  }
+  
+  /* Button styling */
+  .submit-button {
+    padding: 14px 25px;
+    background-color: var(--accent-color);
+    color: var(--primary-bg);
     border: none;
-    border-radius: 8px; /* Rounded button corners */
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1rem; /* Larger button font */
+    font-size: 1.1rem;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.submit-button:hover {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .submit-button:hover {
     background-color: #7CB342;
-    transform: scale(1.03); /* Slight scale up on hover */
-    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.3);
-}
-
-.error-message {
-    color: #ff6b6b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--shadow-color);
+  }
+  
+  .submit-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Messages */
+  .error-message {
+    color: var(--error-color);
     margin-top: 1rem;
-}
-
-.success-message {
-    color: #8BC34A;
+    padding: 0.75rem;
+    background-color: rgba(255, 107, 107, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid var(--error-color);
+  }
+  
+  .success-message {
+    color: var(--success-color);
     margin-top: 1rem;
-}
-
-.seat-row-config {
-    border: 1px solid #333;
-    padding: 2rem; /* Increased padding */
-    margin-bottom: 2rem; /* Increased margin */
-    border-radius: 10px; /* More rounded corners */
-    background-color: #1E1E1E; /* Darker background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for seat config sections */
-}
-
-.seat-row-config h4 {
-    color: #8BC34A;
+    padding: 0.75rem;
+    background-color: rgba(139, 195, 74, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid var(--success-color);
+  }
+  
+  /* Seat row configuration */
+  .seat-row-config {
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    background-color: var(--input-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .seat-row-config h4 {
+    color: var(--accent-color);
     margin-top: 0;
-    margin-bottom: 1.5rem; /* Increased margin */
-    font-size: 1.6rem; /* Larger section heading */
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
     font-weight: 500;
-}
-
-.seat-row-config button {
+  }
+  
+  .seat-row-config button {
     padding: 10px 18px;
-    background-color: #ff6b6b;
-    color: #fff; /* White text on remove button */
+    background-color: var(--error-color);
+    color: var(--primary-bg);
     border: none;
-    border-radius: 6px; /* Rounded button corners */
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    margin-top: 1rem; /* Increased margin */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.seat-row-config button:hover {
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .seat-row-config button:hover {
     background-color: #e04f4f;
-    transform: scale(1.03);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.seat-row-config .form-group {
-    margin-bottom: 1.5rem; /* Increased margin inside seat-row-config */
-}
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px var(--shadow-color);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .create-movie-container {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+    
+    .create-movie-container h1 {
+      font-size: 1.75rem;
+      padding-bottom: 0.5rem;
+    }
+    
+    .form-group {
+      gap: 0.5rem;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 10px 14px;
+    }
+    
+    .submit-button {
+      padding: 12px 20px;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .create-movie-container h1 {
+      font-size: 1.5rem;
+    }
+    
+    .form-group label {
+      font-size: 0.9rem;
+    }
+    
+    .submit-button {
+      width: 100%;
+    }
+  }

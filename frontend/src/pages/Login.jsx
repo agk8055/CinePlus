@@ -23,7 +23,7 @@ function Login() {
             // --- Corrected login function call - Pass response.data as userData ---
             login(response.data); // Pass the entire response.data as userData
 
-            navigate('/admin'); // Redirect to Admin Panel after login (adjust if needed)
+            navigate('/'); // Redirect to Admin Panel after login (adjust if needed)
 
         } catch (err) {
             if (err.response && err.response.data && err.response.data.error) {

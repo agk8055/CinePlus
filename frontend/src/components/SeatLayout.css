@@ -1,4 +1,4 @@
-/* components/SeatLayout.css */
+/* frontend/src/components/SeatLayout.css */
 
 .seat-layout-container {
     display: flex;
@@ -100,6 +100,13 @@
     color: #999; /* Lighter color for booked seat number */
 }
 
+.seat-space {
+    width: 20px; /* Adjust the width as needed for the space */
+    height: 32px; /* Match seat height for vertical alignment */
+    margin: 5px;   /* Match seat margin */
+    /* No background or border to make it visually a space */
+}
+
 
 /* Legend Styles */
 .seat-legend {
@@ -135,3 +142,14 @@
     font-size: 1em;
     text-align: center;
 }
+
+
+
+.empty-seat-row {
+    width: 100%; /* Take full width of the container */
+    height: 20px; /* Adjust the height of the empty row as needed */
+    margin-bottom: 15px; /* Add some margin below the empty row */
+    /* You can add a border or background for visual separation if needed */
+    /* border-bottom: 1px dashed #777; */ /* Example dashed line for separation */
+}
+

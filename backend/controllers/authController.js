@@ -192,13 +192,13 @@ exports.theatreAdminSignup = async (req, res) => {
     }
 };
 
-// GET /auth/me - Get logged in user's profile (NEW FUNCTION)
+// GET /auth/me - Get logged in user's profile
 exports.getMe = async (req, res) => {
     try {
         const userId = req.user.userId; // User ID is already attached to req.user by authenticateJWT middleware
 
         const [users] = await pool.execute(
-            'SELECT user_id, name, email, role FROM users WHERE user_id = ?', // Select name and other relevant fields
+            'SELECT user_id, name, email, role, phone_number FROM users WHERE user_id = ?', // Select name, email, role, and phone_number - MODIFIED QUERY
             [userId]
         );
 
@@ -212,6 +212,7 @@ exports.getMe = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            phone_number: user.phone_number, // Include phone_number in the response - ADDED phone_number to response
             // Add any other user details you want to send to the frontend
         });
 
@@ -264,6 +265,138 @@ exports.login = async (req, res) => {
     } catch (err) {
         console.error('Login Error:', err);
         res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (connection) connection.release();
+    }
+};
+
+// PUT /auth/profile - Update logged in user's profile
+exports.updateProfile = async (req, res) => {
+    let connection;
+    try {
+        const userId = req.user.userId; // Get user ID from JWT
+        const { name, email, phone_number } = req.body; // Get fields to update from request body
+
+        // Input Validation (Optional, but recommended - validate fields being updated)
+        if (name && typeof name !== 'string') {
+            return res.status(400).json({ error: 'Invalid name format' });
+        }
+        if (email && !validator.isEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
+        }
+        if (phone_number && typeof phone_number !== 'string') { // Basic phone number validation can be added
+            return res.status(400).json({ error: 'Invalid phone number format' });
+        }
+
+
+        connection = await pool.getConnection();
+
+        // 1. Check if user exists (optional, authenticateJWT should handle this, but good to double-check)
+        const [users] = await connection.execute(
+            'SELECT user_id FROM users WHERE user_id = ?',
+            [userId]
+        );
+        if (users.length === 0) {
+            return res.status(404).json({ error: 'User not found' }); // User should exist if JWT is valid
+        }
+
+        // 2. Update user data in the database
+        const updateFields = [];
+        const updateValues = [];
+
+        if (name !== undefined) { // Check if name is provided in the request body
+            updateFields.push('name = ?');
+            updateValues.push(name);
+        }
+        if (email !== undefined) {
+            updateFields.push('email = ?');
+            updateValues.push(email);
+        }
+        if (phone_number !== undefined) {
+            updateFields.push('phone_number = ?');
+            updateValues.push(phone_number);
+        }
+
+        if (updateFields.length === 0) {
+            return res.status(400).json({ error: 'No fields to update provided' }); // If no fields to update in request
+        }
+
+
+        const updateQuery = `UPDATE users SET ${updateFields.join(', ')} WHERE user_id = ?`;
+        updateValues.push(userId); // Add userId at the end for WHERE clause
+
+        await connection.execute(updateQuery, updateValues);
+
+        // 3. Fetch the updated user profile to send back (optional, but good practice)
+        const [updatedUsers] = await connection.execute(
+            'SELECT user_id, name, email, phone_number, role FROM users WHERE user_id = ?', // Select all fields to return updated profile
+            [userId]
+        );
+        const updatedUser = updatedUsers[0];
+
+
+        res.status(200).json({ message: 'Profile updated successfully', user: updatedUser }); // Send success response with updated user data
+
+    } catch (error) {
+        console.error('Profile Update Error:', error);
+        res.status(500).json({ error: 'Failed to update profile' });
+    } finally {
+        if (connection) connection.release();
+    }
+};
+
+// PUT /auth/password - Change user password (NEW FUNCTION for password change)
+exports.changePassword = async (req, res) => {
+    let connection;
+    try {
+        const userId = req.user.userId; // Get user ID from JWT
+        const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+        // 1. Input Validation
+        if (!currentPassword || !newPassword || !confirmNewPassword) {
+            return res.status(400).json({ error: 'All password fields are required' });
+        }
+        if (newPassword !== confirmNewPassword) {
+            return res.status(400).json({ error: 'New password and confirm password do not match' });
+        }
+        if (!validator.isStrongPassword(newPassword, { /* your password options */ })) {
+            return res.status(400).json({ error: 'New password does not meet complexity requirements' });
+        }
+
+
+        connection = await pool.getConnection();
+
+        // 2. Get user's current password from database
+        const [users] = await connection.execute(
+            'SELECT password FROM users WHERE user_id = ?',
+            [userId]
+        );
+        if (users.length === 0) {
+            return res.status(404).json({ error: 'User not found' }); // Should not happen
+        }
+        const user = users[0];
+        const storedHashedPassword = user.password;
+
+        // 3. Verify current password
+        const passwordMatch = await bcrypt.compare(currentPassword, storedHashedPassword);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Incorrect current password' }); // 401 Unauthorized for wrong password
+        }
+
+        // 4. Hash the new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+        // 5. Update password in database
+        await connection.execute(
+            'UPDATE users SET password = ? WHERE user_id = ?',
+            [hashedNewPassword, userId]
+        );
+
+        res.status(200).json({ message: 'Password changed successfully' }); // Success message
+
+    } catch (error) {
+        console.error('Password Change Error:', error);
+        res.status(500).json({ error: 'Failed to change password' });
     } finally {
         if (connection) connection.release();
     }

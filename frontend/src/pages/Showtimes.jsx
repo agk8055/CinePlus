@@ -34,7 +34,11 @@ const Showtimes = () => {
                     console.log("API Response:", response); // ADD THIS LINE - Debugging log
 
                     if (response && response.showtimes) { // Check if response and response.showtimes are defined
-                        setShowtimes(response.showtimes); // Access showtimes from response object
+                        // Sort showtimes array here based on start_time
+                        const sortedShowtimes = response.showtimes.sort((a, b) => {
+                            return new Date(a.start_time) - new Date(b.start_time);
+                        });
+                        setShowtimes(sortedShowtimes);
                     } else {
                         setShowtimes([]); // Set showtimes to empty array if response or response.showtimes is missing
                         console.error("API response is missing 'showtimes' property or response is undefined:", response); // Log if showtimes is missing
@@ -73,11 +77,14 @@ const Showtimes = () => {
 
     // Group showtimes by theater
     const groupedShowtimes = {};
-    showtimes.forEach(showtime => { // Line 58 is here
+    showtimes.forEach(showtime => { // Line 58 was here, now line number might change
         if (!groupedShowtimes[showtime.theater_name]) {
-            groupedShowtimes[showtime.theater_name] = [];
+            groupedShowtimes[showtime.theater_name] = {
+                showtimes: [],
+                theaterId: showtime.theater_id // Store theaterId here
+            };
         }
-        groupedShowtimes[showtime.theater_name].push(showtime);
+        groupedShowtimes[showtime.theater_name].showtimes.push(showtime);
     });
 
     // Function to generate an array of dates (e.g., 10 days from today)
@@ -125,38 +132,43 @@ const Showtimes = () => {
             <Filter onFilterChange={handleFilterChange} availableLanguages={availableLanguages} />
 
             <div className="showtimes-list">
-                {Object.keys(groupedShowtimes).map(theaterName => (
-                    <div key={theaterName} className="theater-card">
-                        <div className="theater-info">
-                            <span className="heart-icon">♡</span>
-                            <h3>{theaterName}</h3>
-                            {/* Placeholder for an info icon */}
-                            <button className="info-button">INFO</button>
-                        </div>
-                        <div className="amenities">
-                            <span className="amenity-icon">🍿</span>
-                            Food & Beverage
-                        </div>
+                {Object.keys(groupedShowtimes).map(theaterName => {
+                    const theaterGroup = groupedShowtimes[theaterName]; // Access the grouped data
+                    return (
+                        <div key={theaterName} className="theater-card">
+                            <div className="theater-info">
+                                <span className="heart-icon">♡</span>
+                                <h3>{theaterName}</h3>
+                                {/* Link to Theater Details Page */}
+                                <Link to={`/theaters/${theaterGroup.theaterId}`}> {/* Use theaterGroup.theaterId */}
+                                    <button className="info-button">INFO</button>
+                                </Link>
+                            </div>
+                            <div className="amenities">
+                                <span className="amenity-icon">🍿</span>
+                                Food & Beverage
+                            </div>
 
-                        <div className="showtime-buttons">
-                            {groupedShowtimes[theaterName].map(showtime => {
-                                const startTime = new Date(showtime.start_time);
-                                const timeString = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            <div className="showtime-buttons">
+                                {theaterGroup.showtimes.map(showtime => {  // Use theaterGroup.showtimes
+                                    const startTime = new Date(showtime.start_time);
+                                    const timeString = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 
-                                return (
-                                    <Link
-                                        key={showtime.showtime_id}
-                                        to={`/booking/screen/${showtime.screen_id}/showtime/${showtime.showtime_id}`}
-                                        className="showtime-button"
-                                    >
-                                        {timeString}
-                                    </Link>
-                                );
-                            })}
+                                    return (
+                                        <Link
+                                            key={showtime.showtime_id}
+                                            to={`/booking/screen/${showtime.screen_id}/showtime/${showtime.showtime_id}`}
+                                            className="showtime-button"
+                                        >
+                                            {timeString}
+                                        </Link>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

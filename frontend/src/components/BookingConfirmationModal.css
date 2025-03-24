@@ -1,0 +1,211 @@
+/* components/BookingConfirmationModal.css - Dark Theme */
+
+.booking-confirmation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.booking-confirmation-modal {
+    background-color: #1a1a1a; /* Dark background for modal */
+    color: #f0f0f0; /* Light text color */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Stronger shadow for dark theme */
+    width: 80%;
+    max-width: 500px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-out forwards;
+    border: 1px solid #333; /* Optional: Dark border */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Modal Header - Darker */
+.modal-header {
+    background-color: #222; /* Darker header background */
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #555; /* Darker border */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #ddd; /* Lighter close button color */
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+
+/* Modal Body - Ticket Design - Darker Ticket */
+.modal-body {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.ticket {
+    background-color: #252525; /* Even darker ticket background */
+    color: #ddd; /* Lighter text on ticket */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Shadow for ticket */
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #444; /* Optional: Darker ticket border */
+}
+
+.ticket-header, .ticket-footer {
+    background-color: #333; /* Darker grey header/footer */
+    color: #ccc; /* Lighter header/footer text */
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #555; /* Darker divider */
+}
+
+.ticket-header {
+    border-bottom: none; /* Remove bottom border from header */
+}
+
+.ticket-footer {
+    border-top: 1px solid #555; /* Darker divider */
+}
+
+
+.ticket-header h2 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.5rem;
+    color: #fff; /* White title text */
+}
+
+.ticket-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #eee; /* Lighter subtitle text */
+}
+
+
+.ticket-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.movie-info h3 {
+    font-size: 1.2rem;
+    margin: 0 0 0.3rem 0;
+    color: #fff; /* White movie title in ticket body */
+}
+
+.movie-info p, .theater-screen-info p, .seat-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #ddd; /* Lighter info text in ticket body */
+}
+
+.theater-screen-info, .seat-info {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #666; /* Darker dashed line */
+}
+
+
+.ticket-footer p {
+    color: #ddd; /* Lighter footer text */
+}
+
+
+/* Modal Footer - Buttons - Dark Theme Buttons */
+.modal-footer {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background-color: #222; /* Darker modal footer */
+    border-top: 1px solid #555; /* Darker border */
+}
+
+.confirm-button, .cancel-button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    color: white; /* White button text */
+}
+
+.confirm-button {
+    background-color: #75d402; /* Green confirm button */
+}
+
+.confirm-button:hover {
+    background-color: #9aff3d; /* Lighter green on hover */
+}
+
+.cancel-button {
+    background-color: #f44336; /* Red cancel button */
+}
+
+.cancel-button:hover {
+    background-color: #f7776f; /* Lighter red on hover */
+}
+
+
+/* Responsive adjustments for smaller screens - No change needed here, kept same */
+@media (max-width: 576px) {
+    .booking-confirmation-modal {
+        width: 95%;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .ticket-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .ticket-body {
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+
+    .movie-info h3 {
+        font-size: 1.1rem;
+    }
+
+    .movie-info p, .theater-screen-info p, .seat-info p {
+        font-size: 0.85rem;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+
+    .confirm-button, .cancel-button {
+        width: 100%;
+        text-align: center;
+    }
+}

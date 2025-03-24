@@ -20,8 +20,8 @@ const getSeatLayout = async (req, res) => {
                 sc.total_seats
             FROM Seats s
             JOIN Screens sc ON s.screen_id = sc.screen_id
-            WHERE s.screen_id = ?
-            ORDER BY s.row, s.seat_number`, // Order by row and seat_number for consistent layout
+            WHERE s.screen_id = ?` // Removed ORDER BY clause
+            ,
             [screenId]
         );
 

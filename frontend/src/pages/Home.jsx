@@ -28,13 +28,14 @@ const Home = () => {
             <p>Book your movie tickets in just a few clicks!</p>
             <Link to="/movies" className="btn-primary">Browse Movies</Link>
 
-            {/* Conditionally render Admin Panel button */}
+            {/* Conditionally render Admin Panel button 
             {isAuthenticated && user && user.role === 'admin' && (
                 <Link to="/admin" className="btn-primary" style={{ marginLeft: '1rem' }}>
                     Admin Panel
                 </Link>
             )}
-
+           */}
+           
             {/* Display Featured Movies */}
             <h2>Featured Movies</h2>
             <div className="movie-grid">

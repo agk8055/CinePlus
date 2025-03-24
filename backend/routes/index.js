@@ -2,9 +2,11 @@
 const express = require('express');
 const authRoutes = require('./authRoutes');
 const movieRoutes = require('./movieRoutes');
-const seatRoutes = require('./seatRoutes');
-const showtimeRoutes = require('./showtimeRoutes'); 
+const seatRoutes = require('./seatRoutes'); // You have seatRoutes, ensure it's not conflicting with bookingRoutes
+const showtimeRoutes = require('./showtimeRoutes');
 const theaterRoutes = require('./theaterRoutes');
+const bookingRoutes = require('./bookingRoutes'); // Import booking routes
+const cityRoutes = require('./cityRoutes'); 
 
 const router = express.Router();
 
@@ -17,11 +19,13 @@ router.use('/auth', authRoutes);
 router.use('/movies', movieRoutes);
 
 // Seat routes - prefixed with /seats
-router.use('/seats', seatRoutes); 
+router.use('/seats', seatRoutes); // Ensure seatRoutes and bookingRoutes paths don't conflict if they handle seats
 
 // Showtime routes - prefixed with /showtimes
-router.use('/showtimes', showtimeRoutes);  // Mount showtimeRoutes here
-router.use('/theaters', theaterRoutes); 
+router.use('/showtimes', showtimeRoutes);
+router.use('/theaters', theaterRoutes);
+router.use('/bookings', bookingRoutes); // Mount booking routes under /api/bookings
+router.use('/cities', cityRoutes);
 
 
 // Example of a direct route definition (you generally should use route files for organization)

@@ -1,5 +1,5 @@
 // backend/controllers/showtimeController.js
-const db = require('../config/db');
+const pool = require('../config/db');
 
 // Get showtimes for a movie in a specific city and on a specific date
 exports.getShowtimesByMovie = async (req, res, next) => {
@@ -19,7 +19,8 @@ exports.getShowtimesByMovie = async (req, res, next) => {
                 sc.screen_number,
                 sc.screen_id,
                 s.start_time,
-                m.language AS movie_language
+                m.language AS movie_language,
+                t.theater_id  -- ADDED t.theater_id to SELECT clause
             FROM showtimes s
             JOIN screens sc ON s.screen_id = sc.screen_id
             JOIN theaters t ON sc.theater_id = t.theater_id
@@ -77,10 +78,10 @@ exports.getShowtimesByMovie = async (req, res, next) => {
         }
 
         showtimesQuery += languageFilter + showTimingFilter;
-        let [initialShowtimes] = await db.query(showtimesQuery, showtimesQueryParams);
+        let [initialShowtimes] = await pool.query(showtimesQuery, showtimesQueryParams);
 
         // 2. Fetch Distinct Languages (same as before)
-        const [languagesResult] = await db.query(
+        const [languagesResult] = await pool.query(
             `SELECT DISTINCT m.language FROM showtimes s
              JOIN movies m ON s.movie_id = m.movie_id
              JOIN screens sc ON s.screen_id = sc.screen_id
@@ -101,7 +102,7 @@ exports.getShowtimesByMovie = async (req, res, next) => {
                 const showtimeId = showtime.showtime_id;
 
                 // Fetch seat layout for the screen (without is_booked column from seats table directly)
-                const [seatLayout] = await db.query(
+                const [seatLayout] = await pool.query(
                     `SELECT seat_id, seat_number, seat_type, \`row\` FROM seats WHERE screen_id = ? ORDER BY \`row\`, seat_number`,
                     [screenId]
                 );
@@ -113,7 +114,7 @@ exports.getShowtimesByMovie = async (req, res, next) => {
                             seatsByRow[seat.row] = [];
                         }
                         // Corrected Booked Seat Check using JOIN with bookings table
-                        const [bookedSeatResult] = await db.query(
+                        const [bookedSeatResult] = await pool.query(
                             `SELECT 1
                              FROM booked_seats bs
                              JOIN bookings b ON bs.booking_id = b.booking_id
@@ -162,11 +163,35 @@ exports.getShowtimesByMovie = async (req, res, next) => {
 
 
 
-// --- Theatre Admin Protected Controller Functions (Placeholders for now) ---
+// --- Theatre Admin Protected Controller Functions ---
 
 exports.createShowtime = async (req, res, next) => {
-    console.log("createShowtime controller function called"); // Placeholder log
-    res.send("createShowtime endpoint - To be implemented"); // Placeholder response
+    console.log("createShowtime controller function called");
+    try {
+        const { movie_id, screen_id, start_time, language } = req.body; // Expecting start_time as full datetime
+
+        if (!movie_id || !screen_id || !start_time || !language) {
+            return res.status(400).json({ error: 'Missing required fields to create showtime.' });
+        }
+
+        // SQL INSERT query - inserting directly into start_time column
+        const sql = 'INSERT INTO showtimes (movie_id, screen_id, start_time, language) VALUES (?, ?, ?, ?)'; // Removed show_date
+        const values = [movie_id, screen_id, start_time, language]; // Removed show_date
+
+        const [result] = await pool.query(sql, values);
+
+        if (result.affectedRows > 0) {
+            const newShowtimeId = result.insertId;
+            const [newShowtime] = await pool.query('SELECT * FROM showtimes WHERE showtime_id = ?', [newShowtimeId]);
+            return res.status(201).json({ message: 'Showtime created successfully', showtime: newShowtime[0] });
+        } else {
+            return res.status(500).json({ error: 'Failed to create showtime in database.' });
+        }
+
+    } catch (error) {
+        console.error('Error creating showtime:', error);
+        next(error);
+    }
 };
 
 exports.updateShowtime = async (req, res, next) => {
@@ -180,6 +205,141 @@ exports.deleteShowtime = async (req, res, next) => {
 };
 
 exports.getShowtimesByTheater = async (req, res, next) => {
-    console.log("getShowtimesByTheater controller function called"); // Placeholder log
-    res.send("getShowtimesByTheater endpoint - To be implemented"); // Placeholder response
+    const theaterIdFromParams = req.params.theaterId; // Get theaterId from params (if present)
+    let theaterId;
+
+    try {
+        if (theaterIdFromParams) {
+            // Case 1: theaterId is provided in params (e.g., for admin or public access - if needed)
+            theaterId = theaterIdFromParams;
+        } else if (req.user && req.user.role === 'theatre_admin') {
+            // Case 2: No theaterId in params, but user is theatre_admin - Fetch associated theaterId
+            const [theaters] = await pool.query('SELECT theater_id FROM theaters WHERE user_id = ?', [req.user.userId]);
+            if (theaters.length > 0) {
+                theaterId = theaters[0].theater_id; // Get theaterId from associated theater
+            } else {
+                return res.status(404).json({ message: 'No theater found associated with this Theatre Admin' });
+            }
+        } else {
+            // Case 3: Neither theaterId in params nor theatre_admin -  Decide how to handle (e.g., error, or public listing of all theaters' shows - if that's a use case)
+            return res.status(400).json({ message: 'Theater ID is required for this request' }); // Or handle differently based on your app's logic
+        }
+
+
+        // --- Fetch showtimes using the determined theaterId ---
+        let query = `
+            SELECT
+                s.showtime_id,
+                m.title AS movie_title,
+                sc.screen_number,
+                s.start_time,
+                s.language
+            FROM showtimes s
+            JOIN movies m ON s.movie_id = m.movie_id
+            JOIN screens sc ON s.screen_id = sc.screen_id
+            WHERE sc.theater_id = ?
+            ORDER BY s.start_time
+        `;
+        const queryParams = [theaterId];
+
+
+        const [showtimes] = await pool.query(query, queryParams);
+        res.json(showtimes);
+
+
+    } catch (error) {
+        console.error('Error fetching showtimes by theater:', error);
+        next(error);
+    }
+};
+
+
+exports.deleteShowtime = async (req, res, next) => {
+    const { showtimeId } = req.params;
+
+    if (!showtimeId) {
+        return res.status(400).json({ error: 'Showtime ID is required' });
+    }
+
+    try {
+        const [result] = await pool.query('DELETE FROM showtimes WHERE showtime_id = ?', [showtimeId]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Showtime not found' });
+        }
+
+        res.json({ message: 'Showtime deleted successfully', deletedShowtimeId: showtimeId });
+
+    } catch (error) {
+        console.error('Error deleting showtime:', error);
+        res.status(500).json({ error: 'Failed to delete showtime' });
+    }
+};
+
+exports.getShowtimeDetailsById = async (req, res, next) => {
+    const { showtimeId } = req.params;
+
+    if (!showtimeId) {
+        return res.status(400).json({ error: 'Showtime ID is required' });
+    }
+
+    try {
+        const [showtimeDetails] = await pool.query(`
+            SELECT 
+                st.showtime_id,
+                st.start_time,
+                st.language AS show_language,
+                m.movie_id,
+                m.title AS movie_title,
+                m.genre AS movie_genre, -- Include genre
+                m.language AS movie_language,
+                sc.screen_id,
+                sc.screen_number,
+                th.theater_id,
+                th.name AS theater_name,
+                th.city AS theater_city, -- Include city
+                th.location AS theater_location -- Include location
+            FROM showtimes AS st
+            JOIN movies AS m ON st.movie_id = m.movie_id
+            JOIN screens AS sc ON st.screen_id = sc.screen_id
+            JOIN theaters AS th ON sc.theater_id = th.theater_id
+            WHERE st.showtime_id = ?
+        `, [showtimeId]);
+
+        if (showtimeDetails.length === 0) {
+            return res.status(404).json({ message: 'Showtime not found' });
+        }
+
+        res.json(showtimeDetails[0]);
+    } catch (error) {
+        console.error('Error fetching showtime details:', error);
+        next(error);
+    }
+};
+
+
+exports.getSeatLayout = async (screenId, showtimeId) => {
+    try {
+        const [seats] = await pool.query(`
+            SELECT 
+                seat_id, 
+                seat_number, 
+                seat_type, 
+                \`row\`,  -- Include row
+                price,
+                (SELECT COUNT(*) FROM booked_seats bs JOIN bookings b ON bs.booking_id = b.booking_id WHERE bs.seat_id = seats.seat_id AND b.showtime_id = ?) as isBooked
+            FROM seats
+            WHERE screen_id = ?
+            ORDER BY \`row\`, seat_number
+        `, [showtimeId, screenId]);
+
+
+        const bookedSeatIds = seats.filter(seat => seat.isBooked).map(seat => seat.seat_id);
+
+
+        return { seats, bookedSeatIds };
+    } catch (error) {
+        console.error('Error fetching seat layout:', error);
+        throw error;
+    }
 };

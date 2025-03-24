@@ -1,76 +1,162 @@
-/* frontend/src/pages/AdminPanel.css */
-
+/* Clean Admin Panel Design */
 .admin-panel-container {
+    padding: 2rem 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.admin-title {
+    color: #75d402;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.admin-greeting {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.admin-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #2d2d2d;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.card-title {
+    color: #e0e0e0;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #75d402;
+    display: inline-block;
+}
+
+.card-links {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+}
+
+.card-link {
+    display: flex;
     align-items: center;
-    padding: 3rem; /* Increased padding */
-    background-color: #121212; /* Deeper dark background */
-    border-radius: 12px; /* More rounded corners */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
-    color: #e0e0e0; /* Lighter text color for better contrast */
-}
-
-.admin-panel-title {
-    color: #8BC34A; /* Vibrant green title */
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-size: 2.5rem; /* Larger title */
-    font-weight: 600; /* Semi-bold font weight */
-    letter-spacing: -0.02em; /* Slightly reduced letter spacing for sleekness */
-}
-
-.admin-panel-description {
-    color: #9E9E9E; /* Muted gray description */
-    margin-bottom: 3rem; /* Increased bottom margin */
-    text-align: center;
-    font-size: 1.1rem; /* Slightly larger description */
-    line-height: 1.6; /* Improved line height for readability */
-}
-
-.admin-card-buttons-container {
-    display: grid; /* Using grid for a more structured layout */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid columns */
-    gap: 2.5rem; /* Increased gap */
-    margin-top: 2rem;
-    width: 100%;
-    max-width: 960px; /* Wider max width */
-}
-
-.admin-card-button {
-    background: #1E1E1E; /* Darker card background */
-    padding: 2.5rem; /* Increased padding */
-    border-radius: 10px; /* Rounded card corners */
-    text-align: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Card shadow */
-    border: 1px solid #2C2C2C; /* Subtle border */
-}
-
-.admin-card-button:hover {
-    transform: translateY(-4px); /* Slight lift on hover */
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-    background-color: #252525; /* Slightly lighter hover background */
-}
-
-.admin-card-link {
-    color: #fff;
+    gap: 1rem;
+    padding: 1.2rem;
+    border-radius: 8px;
+    background: #252525;
     text-decoration: none;
-    display: block;
-    width: 100%;
-    height: 100%; /* Ensure link fills the card */
+    color: #e0e0e0;
+    transition: all 0.2s ease;
 }
 
-.admin-card-link h3 {
-    color: #AEEA00; /* Brighter green heading */
-    margin-bottom: 0.8rem;
-    font-size: 1.4rem; /* Larger heading */
-    font-weight: 500; /* Medium font weight */
+.card-link:hover {
+    background: #2d2d2d;
+    transform: translateX(5px);
 }
 
-.admin-card-link p {
-    color: #BDBDBD; /* Lighter gray paragraph */
-    font-size: 1rem;
-    line-height: 1.5; /* Improved line height */
+.full-link {
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.link-icon {
+    font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #75d402;
+}
+
+.link-content h3 {
+    color: #f8f9fa;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+.link-content p {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.access-denied {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #ff4d4d;
+}
+
+.access-denied h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-panel-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .admin-title {
+        font-size: 1.8rem;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+        padding: 0;
+    }
+
+    .card-link {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-title {
+        font-size: 1.6rem;
+    }
+
+    .link-icon {
+        font-size: 1.5rem;
+    }
+
+    .link-content h3 {
+        font-size: 1rem;
+    }
 }

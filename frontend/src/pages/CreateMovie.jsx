@@ -1,4 +1,4 @@
-// frontend/src/pages/CreateMovie.jsx
+// src/pages/CreateMovie.jsx
 import React, { useState } from 'react';
 import api from '../api/api';
 import './CreateMovie.css'; // We'll create this CSS file next
@@ -12,6 +12,7 @@ const CreateMovie = () => {
     const [description, setDescription] = useState('');
     const [posterUrl, setPosterUrl] = useState('');
     const [trailerUrl, setTrailerUrl] = useState('');
+    const [rating, setRating] = useState(''); // Add rating state
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -24,15 +25,16 @@ const CreateMovie = () => {
             title,
             genre,
             duration,
-            release_date: releaseDate, // match backend expected field name
+            release_date: releaseDate,
             language,
+            rating, // Include rating in the movie data
             description,
-            poster_url: posterUrl, // match backend expected field name
-            trailer_url: trailerUrl  // match backend expected field name
+            poster_url: posterUrl,
+            trailer_url: trailerUrl
         };
 
         try {
-            const response = await api.post('/movies', movieData); // POST request to /api/v1/movies
+            const response = await api.post('/movies', movieData);
             console.log('Movie created:', response.data);
             setSuccessMessage('Movie added successfully!');
             // Reset form fields after successful submission
@@ -44,6 +46,7 @@ const CreateMovie = () => {
             setDescription('');
             setPosterUrl('');
             setTrailerUrl('');
+            setRating(''); // Reset rating
         } catch (error) {
             console.error('Error creating movie:', error.response ? error.response.data : error.message);
             if (error.response && error.response.data && error.response.data.errors) {
@@ -53,8 +56,7 @@ const CreateMovie = () => {
             } else if (error.response && error.response.data && error.response.data.error) {
                 // If backend sends a general error message
                 setErrorMessage(error.response.data.error);
-            }
-             else {
+            } else {
                 setErrorMessage('Failed to add movie. Please try again.');
             }
         }
@@ -85,6 +87,16 @@ const CreateMovie = () => {
                 <div className="form-group">
                     <label htmlFor="language">Language:</label>
                     <input type="text" id="language" value={language} onChange={(e) => setLanguage(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="rating">Rating:</label>
+                    <select id="rating" value={rating} onChange={(e) => setRating(e.target.value)} required>
+                        <option value="">Select a rating</option>
+                        <option value="U">U</option>
+                        <option value="UA">UA</option>
+                        <option value="A">A</option>
+                        <option value="S">S</option>
+                    </select>
                 </div>
                 <div className="form-group">
                     <label htmlFor="description">Description:</label>
